@@ -4,25 +4,28 @@ import Slider from 'react-slick';
 // CSS Files Import
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';;
 
-function TopRated() {
-  const SlickSlider = Slider.default || Slider;
-  const settings = {
-    dots: true,
-    infinite: true,
-    slidesToShow: 4,
-    slidesToScroll: 6,
-    autoplay: true,
-    speed: 1000,
-    autoplaySpeed: 4000,
-    cssEase: "linear"
-  };
-
+function TopRated({ }) {
   const [topRatedProduct, setTopRatedProduct] = useState([]);
 
+  const SlickSlider = Slider.default || Slider;
+  const settings = {
+ dots: true,
+    infinite: true,     
+    arrows: true,             
+    slidesToShow: 4,        
+    slidesToScroll: 3,      
+    // autoplay: true,
+    // autoplaySpeed: 100,    
+    speed: 1000,            
+    cssEase: "ease-in-out", 
+    pauseOnHover: true
+  };
+
+
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,12 +42,15 @@ function TopRated() {
   console.log(topRatedProduct)
 
 
+ 
+
+
   return (
     <div className="py-10 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-gray-800 mb-8 ">Top Rated Products</h2>
 
-        <div className="slider-container">
+        <div className="slider-container ">
           <SlickSlider {...settings}>
             {topRatedProduct.slice(2, 11).map((item) => (
               <div key={item.id} className="p-3">
@@ -92,6 +98,7 @@ function TopRated() {
               </div>
             ))}
           </SlickSlider>
+        
         </div>
       </div>
     </div>

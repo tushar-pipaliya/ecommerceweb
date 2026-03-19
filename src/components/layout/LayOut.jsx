@@ -1,15 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import Hero from './slider/Hero'
 import Hero from './slider/Hero'
 import TopRated from './topRated/TopRated'
 import Category from './category/Category'
+import LatestElectronic from './latestelectronic/LatestElecronic'
+const LayOut = ({mainLayOutRecive}) => {
+  const [dataFromTopRated, setDataFromTopRated] = useState([])
 
-const LayOut = () => {
+  const receiveDataFromTopRated = (arr) =>{
+    setDataFromTopRated(arr)
+  }
+
+
+
+  console.log(dataFromTopRated, 'dataFromTopRated')
   return (
     <div>
       <Hero/>
       <TopRated/>
       <Category/>
+      <LatestElectronic/>
     </div>
   )
 }
