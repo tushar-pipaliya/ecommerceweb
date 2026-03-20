@@ -10,7 +10,7 @@ import FilterBar from '../filterBar/FilterBar'
 function AllProduct() {
     const [allData, setAllData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState('All Categories');
     const [search, setSearch] = useState('');
 
     // ====================Get Data From API====================   
@@ -35,44 +35,52 @@ function AllProduct() {
     // ====================Search Function====================
 
     const searchTerm = (searchInput) => {
-        let newData = [...allData];
+        setSearch(searchInput)
+        debugger;
+        let newData;
+        if (category === 'All Categories' || searchInput === '') {
+            newData = [...allData];
+        } else {
+            newData = filteredData
+        }
         console.log(newData, 'newData')
-        if (searchInput.length != '') {
+        debugger;
+        if (searchInput != '') {
             console.log(searchInput, 'values')
             const result = newData.filter((item) => {
                 return item.title.toLowerCase().includes(searchInput.toLowerCase());
             });
             setFilteredData(result);
-        } else {
-            setFilteredData(allData)
+        }
+        else {
+            const result = newData.filter((item) => {
+                return item.category.toLowerCase().includes(category.toLowerCase());
+            });
+            setFilteredData(result);
         }
 
     }
 
 
     //===========================Category===========================
-    const categorySelect = (categoryValue) =>{
-        let newData = [...allData];
-        // let newData = filteredData
-        console.log(newData, 'newData')
-        if (categoryValue.length != '') {
-            console.log(categoryValue, 'values')
-            const result = newData.filter((item) => {
-                return item.category.toLowerCase().includes(categoryValue.toLowerCase());
-            });
-            if(result.length > 0){
-                setFilteredData(result);
-            }else{
-                setFilteredData(allData);
-            }
-        } else {
+    const categorySelect = (categoryValue) => {
+        setCategory(categoryValue);
+        debugger;
+        if (categoryValue === 'All Categories') {
             setFilteredData(allData)
+            return
         }
 
-            setCategory(allData)
-        console.log(category)
+        let newData = filteredData
+        const result = newData.filter((item) => {
+            return item.category.toLowerCase().includes(categoryValue.toLowerCase());
+        });
+
+        setFilteredData(result);
+
+
     }
-    
+    console.log(category, 'category---2')
 
     // console.log(,'ddd')
 
@@ -80,7 +88,7 @@ function AllProduct() {
     return (
         <>
             <div>
-                <FilterBar onSearch={searchTerm}  onCategory={categorySelect}/>
+                <FilterBar onSearch={searchTerm} onCategory={categorySelect} />
                 <div className="slider-container flex flex-wrap justify-center   ">
                     {filteredData.length > 0 ? filteredData.map((item) => (
                         <div key={item.id} className="p-3">
