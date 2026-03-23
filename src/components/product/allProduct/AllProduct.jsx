@@ -10,10 +10,13 @@ import FilterBar from '../filterBar/FilterBar'
 function AllProduct() {
     const [allData, setAllData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
-    const [category, setCategory] = useState('All Categories');
-    const [search, setSearch] = useState('');
-
-    // ====================Get Data From API====================   
+      // 1. Ek j state ma badhu manage karo
+    const [filters, setFilters] = useState({
+        search: '',
+        category: 'All Categories',
+        sort: ''
+    });
+//     // ====================Get Data From API====================   
     useEffect(() => {
         fetchData();
     }, []);
@@ -32,63 +35,50 @@ function AllProduct() {
     };
     console.log(allData)
 
-    // ====================Search Function====================
-
-    const searchTerm = (searchInput) => {
-        setSearch(searchInput)
-        debugger;
-        let newData;
-        if (category === 'All Categories' || searchInput === '') {
-            newData = [...allData];
-        } else {
-            newData = filteredData
-        }
-        console.log(newData, 'newData')
-        debugger;
-        if (searchInput != '') {
-            console.log(searchInput, 'values')
-            const result = newData.filter((item) => {
-                return item.title.toLowerCase().includes(searchInput.toLowerCase());
-            });
-            setFilteredData(result);
-        }
-        else {
-            const result = newData.filter((item) => {
-                return item.category.toLowerCase().includes(category.toLowerCase());
-            });
-            setFilteredData(result);
+//     // 2. Main Magic: Jyare filters object badlay tyare aa execute thase
+    useEffect(() => {
+        let result = [...allData]; // Original data ni copy banavo
+        console.log(result, 'result-----1')
+        // A. Category check karo
+        if (filters.category !== 'All Categories') {
+            // debugger;
+            result = result.filter(item => item.category === filters.category);
+            console.log(result, 'Categories')
         }
 
-    }
-
-
-    //===========================Category===========================
-    const categorySelect = (categoryValue) => {
-        setCategory(categoryValue);
-        debugger;
-        if (categoryValue === 'All Categories') {
-            setFilteredData(allData)
-            return
+        // B. Search check karo
+        if (filters.search !== '') {
+            result = result.filter(item => 
+                item.title.toLowerCase().includes(filters.search.toLowerCase())
+            );
         }
 
-        let newData = filteredData
-        const result = newData.filter((item) => {
-            return item.category.toLowerCase().includes(categoryValue.toLowerCase());
-        });
+        // C. Sorting check karo
+        if (filters.sort === 'High') {
+            debugger;
+            result.sort((a, b) => a.price - b.price);
+        } else if (filters.sort === 'Low') {
+            result.sort((a, b) => b.price - a.price);
+        }
 
-        setFilteredData(result);
+        setFilteredData(result); // Final filtered data display mate set karo
+    }, [filters]); // Aa banne badlay tyare filter thase
+
+    // 3. Child (FilterBar) mathi data lava mate nu function
+    const updateFilters = (key, value) => {
+        setFilters(prev => ({
+            ...prev,     // Juni values rakho (search, sort etc.)
+            [key]: value // Fakt je badlayu hoy tene update karo (jem ke category)
+        }));
+    };
 
 
-    }
-    console.log(category, 'category---2')
-
-    // console.log(,'ddd')
-
+// ======= view Details =====
 
     return (
         <>
             <div>
-                <FilterBar onSearch={searchTerm} onCategory={categorySelect} />
+               <FilterBar onFilterChange={updateFilters} />
                 <div className="slider-container flex flex-wrap justify-center   ">
                     {filteredData.length > 0 ? filteredData.map((item) => (
                         <div key={item.id} className="p-3">

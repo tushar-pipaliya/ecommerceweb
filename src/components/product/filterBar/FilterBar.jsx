@@ -1,23 +1,9 @@
 import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
-const FilterBar = ({ onSearch, onCategory }) => {
-
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('');
-
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    onSearch(e.target.value)
-
-  }
+const FilterBar = ({ onFilterChange }) => {
 
 
-  const handleChange = (event) => {
-    setCategory(event.target.value);
-    onCategory(event.target.value)
-  }
-  console.log(category, 'category')
   return (
     <div className='bg-white p-3 shadow-md rounded-lg mb-5 flex justify-between'>
       {/* SearchBar ne function pass karyu */}
@@ -28,28 +14,37 @@ const FilterBar = ({ onSearch, onCategory }) => {
           </div>
           <input
             type="text"
-            placeholder="Search products..."
-            value={search}
+            placeholder="Search..."
             className="w-full pl-10 pr-4 py-2 outline-none rounded-lg focus:ring-2 focus:ring-blue-500"
-            onChange={handleSearch}
+
+            onChange={(e) => onFilterChange('search', e.target.value)}
           />
+
         </div>
       </div>
-      <div className=''>
-        <select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={category}
-          label="Age"
-          onChange={handleChange}
-          className=' flex items-center border outline-none  p-2 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500'
-        >
-          <option>All Categories</option>
-          <option value={"men's clothing"}>Men's clothing</option>
-          <option value={"jewelery"}>Jewelery</option>
-          <option value={"electronics"}>Electronics</option>
-          <option value={"women's clothing"}>women's clothing</option>
-        </select>
+      <div className=' flex gap-5'>
+        <div>
+          <select onChange={(e) => onFilterChange('category', e.target.value)}
+            className=' flex items-center border outline-none  p-2 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500'
+
+          >
+            <option value="All Categories">All Categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="jewelery">Jewelery</option>
+            <option value="men's clothing">Men's clothing</option>
+            <option value="women's clothing">women's clothing</option>
+          </select>
+
+        </div>
+        <div>
+          <select onChange={(e) => onFilterChange('sort', e.target.value)}
+            className=' flex items-center border outline-none  p-2 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500'
+          >
+            <option value="">Sort By</option>
+            <option value="High">Price: Low to High</option>
+            <option value="Low">Price: High to Low</option>
+          </select>
+        </div>
       </div>
     </div>
 
