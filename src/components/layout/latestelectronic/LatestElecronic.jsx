@@ -4,9 +4,11 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';;
+import StarIcon from '@mui/icons-material/Star';
+import { useNavigate } from 'react-router-dom';
 
 const LatestElecronic = () => {
+  const navigate = useNavigate();
 
  const SlickSlider = Slider.default || Slider;
   const settings = {
@@ -44,6 +46,11 @@ const LatestElecronic = () => {
   console.log(data, 'data')
   console.log(electronics, 'electronics')
 
+  // ====== View Details=============
+  const handleCardClick = (id) => {
+  navigate(`/view-details/${id}`); 
+};
+
   return (
   <div className="py-10 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
@@ -58,6 +65,7 @@ const LatestElecronic = () => {
                   {/* Image Container */}
                   <div className="relative bg-gray-100 h-64 flex items-center justify-center overflow-hidden">
                     <img
+                      onClick={() =>handleCardClick(item.id)}
                       src={item.image}
                       className="w-40 h-48 object-contain transform group-hover:scale-110 transition-transform duration-300"
                       alt={item.title}

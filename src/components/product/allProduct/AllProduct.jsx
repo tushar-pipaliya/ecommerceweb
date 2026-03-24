@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import Slider from 'react-slick';
 
 // CSS Files Import
@@ -8,6 +9,7 @@ import StarIcon from '@mui/icons-material/Star';;
 import FilterBar from '../filterBar/FilterBar'
 
 function AllProduct() {
+    const navigate = useNavigate();
     const [allData, setAllData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
       // 1. Ek j state ma badhu manage karo
@@ -74,6 +76,9 @@ function AllProduct() {
 
 
 // ======= view Details =====
+const handleCardClick = (id) => {
+  navigate(`/view-details/${id}`); 
+};
 
     return (
         <>
@@ -86,6 +91,7 @@ function AllProduct() {
                                 {/* Image Container */}
                                 <div className="relative bg-gray-100 h-64 flex items-center justify-center overflow-hidden">
                                     <img
+                                    onClick={()=>handleCardClick(item.id)}
                                         src={item.image}
                                         className="w-40 h-48 object-contain transform group-hover:scale-110 transition-transform duration-300"
                                         alt={item.title}

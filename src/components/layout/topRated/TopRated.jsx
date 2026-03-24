@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
+import { useNavigate } from 'react-router-dom';
 
 // CSS Files Import
 import "slick-carousel/slick/slick.css";
@@ -8,9 +9,11 @@ import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import ViewDetails from '../../viewDetails/ViewDetails';
 
-function TopRated({ }) {
+function TopRated() {
   const [topRatedProduct, setTopRatedProduct] = useState([]);
-  const [viewData, setViewData] = useState([])
+  const navigate = useNavigate();
+  // const [viewData, setViewData] = useState(null);
+  
 
   const SlickSlider = Slider.default || Slider;
   const settings = {
@@ -43,15 +46,18 @@ function TopRated({ }) {
   }, []);
   console.log(topRatedProduct)
 
-  const handleCardClick = (id) =>{
-    debugger
-    console.log(id,'idea')
-    const titleCard = topRatedProduct.find((item)=> item.id === id);
-    console.log(titleCard,'titleCard')
-    setViewData(titleCard)
-  } 
+  // const handleCardClick = (id) =>{
+    
+  //   console.log(id,'idea')
+  //   const titleCard = topRatedProduct.find((item)=> item.id === id);
+  //   console.log(titleCard,'titleCard')
+  //   setViewData(titleCard)
+  // } 
 
-  console.log(viewData, 'data')
+  const handleCardClick = (id) => {
+    navigate(`/view-details/${id}`);
+  };
+
 
   const handleAddToCardClick =() =>{
     console.log('buttonlog')
@@ -61,7 +67,7 @@ function TopRated({ }) {
 
   return (
     <div className="py-10 bg-gray-50">
-    <ViewDetails cardData={viewData}/>
+   
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-gray-800 mb-8 ">Top Rated Products</h2>
 
@@ -82,7 +88,7 @@ function TopRated({ }) {
 
                   </div>
 
-                  {/* Content Section */}
+                  {/* Content Section */} 
                   <div className="p-5">
 
                     <h6 className="mt-2 text-gray-800 font-bold truncate ">
@@ -104,7 +110,7 @@ function TopRated({ }) {
    
                     <div className="mt-4 flex items-center justify-between">
                       <p className="text-xl font-bold text-gray-900">₹{item.price}</p>
-                      <button onClick={handleAddToCardClick} className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out mt-4 px-3 py-1 bg-blue-500 text-white rounded-full">
+                      <button onClick={handleAddToCardClick} className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out mt-4 px-3 py-1 bg-blue-500 text-white rounded-full">
                         Add to Cart
                       </button>
                     </div>

@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 
-function Category() {
-    const data = [
-        { category: "Electronics", categoryIcon: '💻' },
-        { category: "Jewelery", categoryIcon: '💍' },
-        { category: "Men's Clothing", categoryIcon: '👕' },
-        { category: "Women's Clothing", categoryIcon: '👗' }
-    ];
+const Category = () => {
+    const [categoryData, setCategoryData] = useState([])
+
+const icon = ["💻", "💍", "👕", "👗"]
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const res = await fetch('https://fakestoreapi.com/products/categories');
+            const jsonData = await res.json();
+            setCategoryData(jsonData)
+            // setMessage(false)
+        } catch (err) {
+            console.error("Error fetching data:", err);
+            // setMessage(true)
+        }
+    };
+    // console.log(allData)
 
     return (
         <div className='py-12 bg-gray-50'>
@@ -16,16 +30,17 @@ function Category() {
                 </h2>
 
                 <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
-                    {data.map((item, index) => (
+                    {categoryData.map((item, index) => (
                         <div
                             key={index}
                             className='group cursor-pointer bg-white p-4 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center'
                         >
                             <div className='bg-blue-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-100 transition-colors'>
-                                <span className='text-4xl'>{item.categoryIcon}</span>
+                                <span className='text-4xl'>{icon[index]}</span>
                             </div>
-                            <h3 className='font-semibold text-lg text-gray-700 group-hover:text-blue-600 transition-colors'>
-                                {item.category}
+                            <h3 className='capitalize font-semibold text-lg text-gray-700 group-hover:text-blue-600 transition-colors'>
+                                {item}
+
                             </h3>
                         </div>
                     ))}
@@ -35,4 +50,4 @@ function Category() {
     );
 }
 
-export default Category;
+export default Category

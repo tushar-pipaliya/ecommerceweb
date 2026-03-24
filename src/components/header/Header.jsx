@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router'
+import { Link, NavLink } from 'react-router'
 import LocalMallIcon from '@mui/icons-material/LocalMall'
 
 const links = [
@@ -10,7 +10,7 @@ const links = [
 function Header() {
   return (
     <header className="flex items-center justify-between py-5 px-8 bg-white shadow-sm">
-      <div className="text-xl font-bold text-blue-600">ShopZone</div>
+      <div className="text-2xl font-bold text-blue-600"><Link to="/">ShoppingZone</Link></div>
 
       <nav className="flex gap-6 font-medium">
         {links.map((link) => (
