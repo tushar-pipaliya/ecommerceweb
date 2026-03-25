@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
-import { ArrowBack, Close, ShoppingBag } from '@mui/icons-material';
+import { ArrowBack, Close } from '@mui/icons-material';
 
 function ViewDetails() {
     const { id } = useParams();

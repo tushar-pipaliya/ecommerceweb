@@ -6,19 +6,19 @@ import { useNavigate } from 'react-router-dom';
 
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';;
-import FilterBar from '../filterBar/FilterBar'
+import FilterBar from '../filterbar/FilterBar'
 
 function AllProduct() {
     const navigate = useNavigate();
     const [allData, setAllData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
-      // 1. Ek j state ma badhu manage karo
+    // 1. Ek j state ma badhu manage karo
     const [filters, setFilters] = useState({
         search: '',
         category: 'All Categories',
         sort: ''
     });
-//     // ====================Get Data From API====================   
+    //     // ====================Get Data From API====================   
     useEffect(() => {
         fetchData();
     }, []);
@@ -37,7 +37,7 @@ function AllProduct() {
     };
     console.log(allData)
 
-//     // 2. Main Magic: Jyare filters object badlay tyare aa execute thase
+    //     // 2. Main Magic: Jyare filters object badlay tyare aa execute thase
     useEffect(() => {
         let result = [...allData]; // Original data ni copy banavo
         console.log(result, 'result-----1')
@@ -50,7 +50,7 @@ function AllProduct() {
 
         // B. Search check karo
         if (filters.search !== '') {
-            result = result.filter(item => 
+            result = result.filter(item =>
                 item.title.toLowerCase().includes(filters.search.toLowerCase())
             );
         }
@@ -75,15 +75,17 @@ function AllProduct() {
     };
 
 
-// ======= view Details =====
-const handleCardClick = (id) => {
-  navigate(`/view-details/${id}`); 
-};
+    // ======= view Details =====
+    const handleCardClick = (id) => {
+        navigate(`/view-details/${id}`);
+    };
 
     return (
         <>
-            <div>
-               <FilterBar onFilterChange={updateFilters} />
+            <div className='bg-gray-50'>
+                <h2 className="text-3xl font-bold text-center pt-3 text-gray-800 mb-8 ">Our Products</h2>
+
+                <FilterBar onFilterChange={updateFilters} />
                 <div className="slider-container flex flex-wrap justify-center   ">
                     {filteredData.length > 0 ? filteredData.map((item) => (
                         <div key={item.id} className="p-3">
@@ -91,7 +93,7 @@ const handleCardClick = (id) => {
                                 {/* Image Container */}
                                 <div className="relative bg-gray-100 h-64 flex items-center justify-center overflow-hidden">
                                     <img
-                                    onClick={()=>handleCardClick(item.id)}
+                                        onClick={() => handleCardClick(item.id)}
                                         src={item.image}
                                         className="w-40 h-48 object-contain transform group-hover:scale-110 transition-transform duration-300"
                                         alt={item.title}
