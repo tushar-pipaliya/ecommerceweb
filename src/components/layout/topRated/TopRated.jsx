@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
+import { CartContext } from  '../../../contexts/ContextData';
 
 // CSS Files Import
 import "slick-carousel/slick/slick.css";
@@ -9,9 +10,10 @@ import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import ViewDetails from '../../viewDetails/ViewDetails';
 
-function TopRated() {
+const TopRated = () =>{
   const [topRatedProduct, setTopRatedProduct] = useState([]);
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
   // const [viewData, setViewData] = useState(null);
   
 
@@ -59,9 +61,10 @@ function TopRated() {
   };
 
 
-  const handleAddToCardClick =() =>{
-    console.log('buttonlog')
-  }
+const handleAddToCardClick = (item) => {
+    addToCart(item);
+    
+  };
  
 
 
@@ -110,7 +113,7 @@ function TopRated() {
    
                     <div className="mt-4 flex items-center justify-between">
                       <p className="text-xl font-bold text-gray-900">₹{item.price}</p>
-                      <button onClick={handleAddToCardClick} className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out mt-4 px-3 py-1 bg-blue-500 text-white rounded-full">
+                      <button onClick={() => handleAddToCardClick(item)} className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out mt-4 px-3 py-1 bg-blue-500 text-white rounded-full">
                         Add to Cart
                       </button>
                     </div>
